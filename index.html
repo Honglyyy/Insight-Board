@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Insight Board</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <header>
+                <h1>Insight Board</h1>
+                <button id="closeBtn">
+                    <!-- Close Icon -->
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                    </svg>
+                </button>
+            </header>
+            <div class="menu">
+                
+                <ul class="sideMenu-items">
+                    <li class="active"><a>Dashboard</a></li>
+                    <li><a>Products</a></li>
+                    <li><a>Reports</a></li>
+                    <li><a>Customers</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <input type="text" class="search-box" placeholder="Search..." />
+                </div>
+                <div class="nav-right">
+                    <span>Welcome back!</span>
+                    <div class="user-info">
+                        <div class="avatar">JD</div>
+                        <span>John Doe</span>
+                    </div>
+                </div>
+            </nav>
+            <hr />
+            <main>
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">Dashboard Overview</h1>
+                    <p class="dashboard-subtitle">
+                        Monitor your business performance and key metrics
+                    </p>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Charts Section -->
+                    <div class="charts-container">
+                        <div class="chart-row">
+                            <div class="chart-box">
+                                <h3>Monthly Sales</h3>
+                                <canvas id="myChart"></canvas>
+                            </div>
+                            <div class="chart-box">
+                                <h3>Yearly Trend</h3>
+                                <canvas id="myLine"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <div class="chart-box">
+                                <h3>Office Distribution</h3>
+                                <canvas id="officePieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table Section -->
+                    <div class="table">
+                        <form action="" class="table-form">
+                            <div class="search">
+                                <input type="text" id="tableSearch" placeholder="Search..." />
+                                <button class="search-btn">Search</button>
+                            </div>
+                            <div class="date">
+                                <input type="date" name="" id="" />
+                            </div>
+                        </form>
+                        <table id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Office</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+</body>
+    <script type="module" src="script/script.js"></script>
+</html>
