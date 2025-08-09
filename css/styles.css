@@ -240,14 +240,17 @@ tr:hover {
     display: flex;
     justify-content: space-between;
 }
-.search-btn{
+.add-btn{
     background-color: dodgerblue;
     color: white;
     cursor: pointer;
+    padding: 10px 15px;
+    border: 1px solid rgba(128, 128, 128, 0.497);
 }
-.search-btn:hover{
+.add-btn:hover{
     background-color: rgb(58, 157, 255);
 }
+
 .menu-toggle {
     display: none;
     background: none;
