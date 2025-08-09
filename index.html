@@ -47,6 +47,19 @@
                     <div class="user-info">
                         <div class="avatar">JD</div>
                         <span>John Doe</span>
+                        <button id="themeToggle" class="theme-toggle">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </nav>
@@ -71,15 +84,34 @@
                                 <h3>Yearly Trend</h3>
                                 <canvas id="myLine"></canvas>
                             </div>
+                            <div class="chart-box">
+                                <h3>Calendar</h3>
+                                <div class="mini-calendar">
+                                    <div class="calendar-header">
+                                        <button class="calendar-nav" id="prevMonth">‹</button>
+                                        <span class="calendar-month-year" id="monthYear"></span>
+                                        <button class="calendar-nav" id="nextMonth">›</button>
+                                    </div>
+                                    <div class="calendar-grid" id="calendarGrid"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="chart-row">
                             <div class="chart-box">
                                 <h3>Office Distribution</h3>
                                 <canvas id="officePieChart"></canvas>
                             </div>
+                            <div class="chart-box">
+                                <h3>Performance Radar</h3>
+                                <canvas id="radarChart"></canvas>
+                            </div>
+                            <div class="chart-box">
+                                <h3>Revenue Growth</h3>
+                                <canvas id="doughnutChart"></canvas>
+                            </div>
                         </div>
                     </div>
-
+                    
                     <!-- Table Section -->
                     <div class="table">
                         <form action="" class="table-form">
