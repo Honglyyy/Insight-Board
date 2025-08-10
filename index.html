@@ -4,20 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Insight Board</title>
-    <link rel="shortcut icon" href="assets/images/icon.jpg" type="image/x-icon">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 <body>
     <div class="container">
+        <!-- Modal Overlay -->
+        <div class="modal-overlay" id="modalOverlay"></div>
+        
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <header>
                 <h1>Insight Board</h1>
                 <button id="closeBtn">
-                    <!-- Close Icon -->
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="6" y1="6" x2="18" y2="18" />
                         <line x1="18" y1="6" x2="6" y2="18" />
@@ -25,7 +25,6 @@
                 </button>
             </header>
             <div class="menu">
-                
                 <ul class="sideMenu-items">
                     <li class="active"><a>Dashboard</a></li>
                     <li><a>Products</a></li>
@@ -63,7 +62,7 @@
                     </div>
                 </div>
             </nav>
-            <hr />
+
             <main>
                 <div class="dashboard-header">
                     <h1 class="dashboard-title">Dashboard Overview</h1>
@@ -114,12 +113,10 @@
                     
                     <!-- Table Section -->
                     <div class="table">
-                        <form action="" class="table-form">
-                            
-                                <input type="text" id="tableSearch" placeholder="Search..." />
-                                <button class="add-btn">Add</button>
-                            
-                        </form>
+                        <div class="table-form">
+                            <input type="text" id="tableSearch" placeholder="Search employees..." />
+                            <button id="add-btn">Add Employee</button>
+                        </div>
                         <table id="myTable">
                             <thead>
                                 <tr>
@@ -135,8 +132,33 @@
                 </div>
             </main>
         </div>
-    </div>
 
+        <!-- Modal -->
+        <div class="modal-box" id="addModal">
+            <div class="close-modal" id="closeModal">×</div>
+            <div class="modal-content">
+                <h2>Add New Employee</h2>
+                <form id="employeeForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position</label>
+                        <input type="text" id="position" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="office">Office Location</label>
+                        <input type="text" id="office" required />
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="button" id="cancelBtn" class="btn-secondary">Cancel</button>
+                        <button type="submit" class="btn-primary">Add Employee</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<script src="script/script.js"></script>
 </body>
-    <script type="module" src="./script/script.js"></script>
 </html>

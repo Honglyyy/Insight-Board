@@ -1,23 +1,24 @@
-import { tableData } from "/db/db.js";
+// Initial data
+let tableData = [
+    { id: 1, name: "John Doe", position: "Developer", office: "New York" },
+    { id: 2, name: "Jane Smith", position: "Designer", office: "London" },
+    { id: 3, name: "Mike Johnson", position: "Manager", office: "Paris" },
+    { id: 4, name: "Emily Davis", position: "QA Engineer", office: "Berlin" },
+    { id: 5, name: "Chris Lee", position: "Developer", office: "San Francisco" },
+];
 
-// Dark Mode functionality
+let currentTheme = 'light';
+
+// Theme functionality (without localStorage)
 function initTheme() {
-    const themeToggle = document.getElementById('themeToggle');
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    
-    // Set initial theme
     document.documentElement.setAttribute('data-theme', currentTheme);
-    
-    // Update toggle icon based on theme
     updateThemeIcon(currentTheme);
     
+    const themeToggle = document.getElementById('themeToggle');
     themeToggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme);
+        currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
     });
 }
 
@@ -41,7 +42,117 @@ function updateThemeIcon(theme) {
     themeToggle.innerHTML = icon;
 }
 
-// Mini Calendar functionality
+// Modal functionality
+function initModal() {
+    const addBtn = document.getElementById('add-btn');
+    const modal = document.getElementById('addModal');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const closeModal = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const form = document.getElementById('employeeForm');
+    
+    // Open modal
+    addBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        showModal();
+    });
+    
+    // Close modal events
+    closeModal.addEventListener('click', hideModal);
+    cancelBtn.addEventListener('click', hideModal);
+    modalOverlay.addEventListener('click', hideModal);
+    
+    // Form submission
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        addEmployee();
+    });
+}
+
+function showModal() {
+    const modal = document.getElementById('addModal');
+    const modalOverlay = document.getElementById('modalOverlay');
+    modal.style.display = 'block';
+    modalOverlay.style.display = 'block';
+}
+
+function hideModal() {
+    const modal = document.getElementById('addModal');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const form = document.getElementById('employeeForm');
+    
+    modal.style.display = 'none';
+    modalOverlay.style.display = 'none';
+    form.reset(); // Clear form
+}
+
+function addEmployee() {
+    const nameInput = document.getElementById('name');
+    const positionInput = document.getElementById('position');
+    const officeInput = document.getElementById('office');
+
+    const name = nameInput.value.trim();
+    const position = positionInput.value.trim();
+    const office = officeInput.value.trim();
+
+    if (!name || !position || !office) {
+        alert("Please fill in all fields");
+        return;
+    }
+
+    // Generate new ID
+    const newId = Math.max(...tableData.map(item => item.id)) + 1;
+    
+    // Add to data
+    tableData.push({
+        id: newId,
+        name,
+        position,
+        office
+    });
+
+    // Update table
+    renderTable();
+    
+    // Close modal
+    hideModal();
+    
+    console.log('Employee added:', { id: newId, name, position, office });
+}
+
+// Table functionality
+function renderTable() {
+    const tbody = document.getElementById("table-body");
+    if (!tbody) return;
+
+    let rows = "";
+    tableData.forEach(data => {
+        rows += `<tr>
+            <td>${data.id}</td>
+            <td>${data.name}</td>
+            <td>${data.position}</td>
+            <td>${data.office}</td>
+        </tr>`;
+    });
+    tbody.innerHTML = rows;
+}
+
+function initTableSearch() {
+    const tableSearch = document.getElementById("tableSearch");
+    if (!tableSearch) return;
+
+    tableSearch.addEventListener("keyup", function () {
+        const searchValue = this.value.toLowerCase();
+        const rows = document.querySelectorAll("#myTable tbody tr");
+
+        rows.forEach(row => {
+            const rowText = row.innerText.toLowerCase();
+            row.style.display = rowText.includes(searchValue) ? "" : "none";
+        });
+    });
+}
+
+// Calendar functionality
 class MiniCalendar {
     constructor() {
         this.currentDate = new Date();
@@ -59,12 +170,12 @@ class MiniCalendar {
     }
 
     bindEvents() {
-        document.getElementById('prevMonth').addEventListener('click', () => {
+        document.getElementById('prevMonth')?.addEventListener('click', () => {
             this.currentDate.setMonth(this.currentDate.getMonth() - 1);
             this.render();
         });
 
-        document.getElementById('nextMonth').addEventListener('click', () => {
+        document.getElementById('nextMonth')?.addEventListener('click', () => {
             this.currentDate.setMonth(this.currentDate.getMonth() + 1);
             this.render();
         });
@@ -77,11 +188,15 @@ class MiniCalendar {
 
     renderHeader() {
         const monthYear = document.getElementById('monthYear');
-        monthYear.textContent = `${this.monthNames[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
+        if (monthYear) {
+            monthYear.textContent = `${this.monthNames[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
+        }
     }
 
     renderDays() {
         const grid = document.getElementById('calendarGrid');
+        if (!grid) return;
+
         grid.innerHTML = '';
 
         // Add day headers
@@ -136,84 +251,39 @@ class MiniCalendar {
     }
 }
 
-// Wait for DOM to be fully loaded before accessing any elements
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM loaded, tableData:", tableData);
-    
-    // Initialize theme
-    initTheme();
-    
-    // Initialize mini calendar
-    const calendar = new MiniCalendar();
-    calendar.init();
-    
-    // Get DOM elements after DOM is ready
+// Sidebar functionality
+function initSidebar() {
     const sidebar = document.getElementById("sidebar");
     const menuToggle = document.getElementById("menuToggle");
     const closeBtn = document.getElementById("closeBtn");
 
-    console.log("Elements found:", { sidebar, menuToggle, closeBtn });
-
-    // Toggle sidebar functions
     function showMenu() {
-        console.log("Opening menu");
         sidebar.classList.add("open");
     }
 
     function closeMenu() {
-        console.log("Closing menu");
         sidebar.classList.remove("open");
     }
 
-    // Add event listeners only if elements exist
     if (menuToggle) {
         menuToggle.addEventListener("click", showMenu);
-        console.log("Menu toggle listener added");
-    } else {
-        console.error("menuToggle element not found!");
     }
     
     if (closeBtn) {
         closeBtn.addEventListener("click", closeMenu);
-        console.log("Close button listener added");
-    } else {
-        console.error("closeBtn element not found!");
     }
 
-    // Search functionality on table
-    const tableSearch = document.getElementById("tableSearch");
-    if (tableSearch) {
-        tableSearch.addEventListener("keyup", function () {
-            const searchValue = this.value.toLowerCase();
-            const rows = document.querySelectorAll("#myTable tbody tr");
+    // Close sidebar when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+            closeMenu();
+        }
+    });
+}
 
-            rows.forEach(row => {
-                const rowText = row.innerText.toLowerCase();
-                row.style.display = rowText.includes(searchValue) ? "" : "none";
-            });
-        });
-        console.log("Table search listener added");
-    }
-
-    // Table rendering
-    const tbody = document.getElementById("table-body");
-    if (tbody && tableData) {
-        let rows = "";
-        tableData.forEach(data => {
-            rows += `<tr>
-                <td>${data.id}</td>
-                <td>${data.name}</td>
-                <td>${data.position}</td>
-                <td>${data.office}</td>
-            </tr>`;
-        });
-        tbody.innerHTML = rows;
-        console.log("Table rendered with", tableData.length, "rows");
-    } else {
-        console.error("tbody or tableData not found!", { tbody, tableData });
-    }
-
-    // Charts initialization
+// Charts initialization
+function initCharts() {
+    // Bar chart
     const ctx = document.getElementById("myChart")?.getContext("2d");
     if (ctx) {
         new Chart(ctx, {
@@ -222,40 +292,51 @@ document.addEventListener("DOMContentLoaded", () => {
                 labels: ["Jan", "Feb", "Mar", "Apr", "May"],
                 datasets: [{
                     data: [12, 19, 8, 15, 10],
-                    backgroundColor: "rgba(54, 162, 235, 0.8)",
+                    backgroundColor: "rgba(84, 160, 255, 0.8)",
                 }],
             },
-            options: { responsive: true, maintainAspectRatio: false },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            },
         });
-        console.log("Bar chart created");
-    } else {
-        console.log("Bar chart canvas not found");
     }
 
+    // Line chart
     const lineGraph = document.getElementById("myLine")?.getContext("2d");
     if (lineGraph) {
         new Chart(lineGraph, {
             type: "line",
-            data:
-            {
+            data: {
                 labels: [
                     "Jan", "Feb", "Mar", "Apr", "May",
                     "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
                 ],
-                datasets: 
-                [{
+                datasets: [{
                     data: [12, 19, 34, 10, 5, 6, 7, 8, 19, 15, 12, 11],
-                    backgroundColor: "rgba(54, 162, 235, 0.9)",
+                    backgroundColor: "rgba(84, 160, 255, 0.2)",
+                    borderColor: "rgba(84, 160, 255, 1)",
                     fill: true,
                 }],
             },
-            options: { responsive: true, maintainAspectRatio: false },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            },
         });
-        console.log("Line chart created");
-    } else {
-        console.log("Line chart canvas not found");
     }
     
+    // Pie chart
     const pieChartCtx = document.getElementById("officePieChart")?.getContext("2d");
     if (pieChartCtx) {
         new Chart(pieChartCtx, {
@@ -272,7 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         "#4BC0C0",
                         "#9966FF"
                     ],
-                    borderWidth: 1,
+                    borderWidth: 2,
                 }],
             },
             options: {
@@ -285,12 +366,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         });
-        console.log("Pie chart created");
-    } else {
-        console.log("Pie chart canvas not found");
     }
-      const radarCtx = document.getElementById('radarChart').getContext('2d');
-        const radarChart = new Chart(radarCtx, {
+
+    // Radar chart
+    const radarCtx = document.getElementById('radarChart')?.getContext('2d');
+    if (radarCtx) {
+        new Chart(radarCtx, {
             type: 'radar',
             data: {
                 labels: ['Sales', 'Marketing', 'Development', 'Customer Support', 'Quality', 'Innovation'],
@@ -298,24 +379,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     {
                         label: 'Current Year',
                         data: [85, 90, 78, 92, 88, 76],
-                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
-                        borderColor: 'rgba(102, 126, 234, 1)',
-                        borderWidth: 3,
-                        pointBackgroundColor: 'rgba(102, 126, 234, 1)',
+                        backgroundColor: 'rgba(84, 160, 255, 0.2)',
+                        borderColor: 'rgba(84, 160, 255, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(84, 160, 255, 1)',
                         pointBorderColor: '#fff',
                         pointBorderWidth: 2,
-                        pointRadius: 6
+                        pointRadius: 4
                     },
                     {
                         label: 'Previous Year',
                         data: [75, 82, 70, 85, 80, 68],
                         backgroundColor: 'rgba(118, 75, 162, 0.2)',
                         borderColor: 'rgba(118, 75, 162, 1)',
-                        borderWidth: 3,
+                        borderWidth: 2,
                         pointBackgroundColor: 'rgba(118, 75, 162, 1)',
                         pointBorderColor: '#fff',
                         pointBorderWidth: 2,
-                        pointRadius: 6
+                        pointRadius: 4
                     }
                 ]
             },
@@ -325,71 +406,45 @@ document.addEventListener("DOMContentLoaded", () => {
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: {
-                            padding: 20,
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            }
-                        }
                     }
                 },
                 scales: {
                     r: {
                         beginAtZero: true,
                         max: 100,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        },
-                        angleLines: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        },
-                        pointLabels: {
-                            font: {
-                                size: 12,
-                                weight: 'bold'
-                            },
-                            color: '#2c3e50'
-                        },
                         ticks: {
                             stepSize: 20,
-                            font: {
-                                size: 10
-                            }
                         }
                     }
-                },
-                animation: {
-                    duration: 2000,
-                    easing: 'easeInOutQuart'
                 }
             }
         });
+    }
 
-        // Revenue Growth Doughnut Chart
-        const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
-        const doughnutChart = new Chart(doughnutCtx, {
+    // Doughnut chart
+    const doughnutCtx = document.getElementById('doughnutChart')?.getContext('2d');
+    if (doughnutCtx) {
+        new Chart(doughnutCtx, {
             type: 'doughnut',
             data: {
                 labels: ['Product Sales', 'Services', 'Subscriptions', 'Partnerships', 'Other'],
                 datasets: [{
                     data: [45, 25, 15, 10, 5],
                     backgroundColor: [
-                        'rgba(102, 126, 234, 0.8)',
-                        'rgba(118, 75, 162, 0.8)',
+                        'rgba(84, 160, 255, 0.8)',
+                        'rgba(95, 39, 205, 0.8)',
                         'rgba(255, 99, 132, 0.8)',
                         'rgba(54, 162, 235, 0.8)',
                         'rgba(255, 206, 86, 0.8)'
                     ],
                     borderColor: [
-                        'rgba(102, 126, 234, 1)',
-                        'rgba(118, 75, 162, 1)',
+                        'rgba(84, 160, 255, 1)',
+                        'rgba(95, 39, 205, 1)',
                         'rgba(255, 99, 132, 1)',
                         'rgba(54, 162, 235, 1)',
                         'rgba(255, 206, 86, 1)'
                     ],
-                    borderWidth: 3,
-                    hoverOffset: 15
+                    borderWidth: 2,
                 }]
             },
             options: {
@@ -398,15 +453,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: {
-                            padding: 20,
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            usePointStyle: true,
-                            pointStyle: 'circle'
-                        }
                     },
                     tooltip: {
                         callbacks: {
@@ -417,25 +463,26 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 },
                 cutout: '60%',
-                animation: {
-                    animateRotate: true,
-                    duration: 2000,
-                    easing: 'easeInOutQuart'
-                },
-                elements: {
-                    arc: {
-                        borderJoinStyle: 'round'
-                    }
-                }
             }
         });
+    }
+}
 
-        // Add hover animations
-        radarChart.canvas.addEventListener('mousemove', function(e) {
-            radarChart.canvas.style.cursor = 'pointer';
-        });
-
-        doughnutChart.canvas.addEventListener('mousemove', function(e) {
-            doughnutChart.canvas.style.cursor = 'pointer';
-        });
-})
+// Initialize everything when DOM is loaded
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Dashboard initializing...");
+    
+    // Initialize all components
+    initTheme();
+    initSidebar();
+    initModal();
+    initTableSearch();
+    renderTable();
+    initCharts();
+    
+    // Initialize calendar
+    const calendar = new MiniCalendar();
+    calendar.init();
+    
+    console.log("Dashboard initialized successfully!");
+});
