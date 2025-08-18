@@ -283,15 +283,15 @@ function initSidebar() {
 
 // Charts initialization
 function initCharts() {
-    // Bar chart
+    // Bar chart - Quarterly Revenue
     const ctx = document.getElementById("myChart")?.getContext("2d");
     if (ctx) {
         new Chart(ctx, {
             type: "bar",
             data: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+                labels: ["Q1", "Q2", "Q3", "Q4"],
                 datasets: [{
-                    data: [12, 19, 8, 15, 10],
+                    data: [25000, 32000, 28000, 35000], // USD
                     backgroundColor: "rgba(84, 160, 255, 0.8)",
                 }],
             },
@@ -299,15 +299,18 @@ function initCharts() {
                 responsive: true, 
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => "$" + context.parsed.toLocaleString()
+                        }
                     }
                 }
             },
         });
     }
 
-    // Line chart
+    // Line chart - Monthly Sales Trend
     const lineGraph = document.getElementById("myLine")?.getContext("2d");
     if (lineGraph) {
         new Chart(lineGraph, {
@@ -318,7 +321,7 @@ function initCharts() {
                     "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
                 ],
                 datasets: [{
-                    data: [12, 19, 34, 10, 5, 6, 7, 8, 19, 15, 12, 11],
+                    data: [5000, 7000, 8000, 7600, 8200, 9000, 9500, 9700, 8800, 9300, 11000, 12000],
                     backgroundColor: "rgba(84, 160, 255, 0.2)",
                     borderColor: "rgba(84, 160, 255, 1)",
                     fill: true,
@@ -328,24 +331,27 @@ function initCharts() {
                 responsive: true, 
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => "$" + context.parsed.toLocaleString()
+                        }
                     }
                 }
             },
         });
     }
     
-    // Pie chart
+    // Pie chart - Market Share by Region
     const pieChartCtx = document.getElementById("officePieChart")?.getContext("2d");
     if (pieChartCtx) {
         new Chart(pieChartCtx, {
             type: "pie",
             data: {
-                labels: ["New York", "London", "Paris", "Berlin", "San Francisco"],
+                labels: ["North America", "Europe", "Asia-Pacific", "South America", "Africa"],
                 datasets: [{
-                    label: "Office Distribution",
-                    data: [5, 3, 4, 2, 6],
+                    label: "Market Share",
+                    data: [40, 25, 20, 10, 5],
                     backgroundColor: [
                         "#FF6384",
                         "#36A2EB",
@@ -360,25 +366,28 @@ function initCharts() {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: "bottom",
+                    legend: { position: "bottom" },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => context.label + ": " + context.parsed + "%"
+                        }
                     }
                 }
             }
         });
     }
 
-    // Radar chart
+    // Radar chart - Department Performance
     const radarCtx = document.getElementById('radarChart')?.getContext('2d');
     if (radarCtx) {
         new Chart(radarCtx, {
             type: 'radar',
             data: {
-                labels: ['Sales', 'Marketing', 'Development', 'Customer Support', 'Quality', 'Innovation'],
+                labels: ['Sales', 'Marketing', 'R&D', 'Customer Support', 'Quality', 'Operations'],
                 datasets: [
                     {
                         label: 'Current Year',
-                        data: [85, 90, 78, 92, 88, 76],
+                        data: [90, 85, 88, 92, 86, 80],
                         backgroundColor: 'rgba(84, 160, 255, 0.2)',
                         borderColor: 'rgba(84, 160, 255, 1)',
                         borderWidth: 2,
@@ -389,7 +398,7 @@ function initCharts() {
                     },
                     {
                         label: 'Previous Year',
-                        data: [75, 82, 70, 85, 80, 68],
+                        data: [80, 78, 82, 88, 80, 75],
                         backgroundColor: 'rgba(118, 75, 162, 0.2)',
                         borderColor: 'rgba(118, 75, 162, 1)',
                         borderWidth: 2,
@@ -403,25 +412,19 @@ function initCharts() {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    }
-                },
+                plugins: { legend: { position: 'bottom' } },
                 scales: {
                     r: {
                         beginAtZero: true,
                         max: 100,
-                        ticks: {
-                            stepSize: 20,
-                        }
+                        ticks: { stepSize: 20 }
                     }
                 }
             }
         });
     }
 
-    // Doughnut chart
+    // Doughnut chart - Revenue Breakdown
     const doughnutCtx = document.getElementById('doughnutChart')?.getContext('2d');
     if (doughnutCtx) {
         new Chart(doughnutCtx, {
@@ -429,7 +432,7 @@ function initCharts() {
             data: {
                 labels: ['Product Sales', 'Services', 'Subscriptions', 'Partnerships', 'Other'],
                 datasets: [{
-                    data: [45, 25, 15, 10, 5],
+                    data: [50, 20, 15, 10, 5],
                     backgroundColor: [
                         'rgba(84, 160, 255, 0.8)',
                         'rgba(95, 39, 205, 0.8)',
@@ -451,14 +454,10 @@ function initCharts() {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: 'bottom',
-                    },
+                    legend: { position: 'bottom' },
                     tooltip: {
                         callbacks: {
-                            label: function(context) {
-                                return context.label + ': ' + context.parsed + '%';
-                            }
+                            label: (context) => context.label + ': ' + context.parsed + '%'
                         }
                     }
                 },
@@ -467,6 +466,7 @@ function initCharts() {
         });
     }
 }
+
 
 // Initialize everything when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {

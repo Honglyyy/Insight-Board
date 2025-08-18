@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Insight Board</title>
+    <link rel="shortcut icon" href="/assets/images/icon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Modal Overlay -->
+        <div class="modal-overlay" id="modalOverlay"></div>
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <header>
+                <h1>Insight Board</h1>
+                <button id="closeBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                    </svg>
+                </button>
+            </header>
+            <div class="menu">
+                <ul class="sideMenu-items">
+                    <li class="active"><a>Dashboard</a></li>
+                    <li><a>Products</a></li>
+                    <li><a>Reports</a></li>
+                    <li><a>Customers</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <input type="text" class="search-box" placeholder="Search..." />
+                </div>
+                <div class="nav-right">
+                    <span>Welcome back!</span>
+                    <div class="user-info">
+                        <span>Admin</span>
+                        <div class="avatar">A</div>
+                        <button id="themeToggle" class="theme-toggle">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            <main>
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">Dashboard Overview</h1>
+                    <p class="dashboard-subtitle">Monitor your business performance and key metrics</p>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="charts-container">
+                        <div class="chart-row">
+                            <div class="chart-box">
+                                <h3>Monthly Sales</h3>
+                                <canvas id="myChart"></canvas>
+                            </div>
+                            <div class="chart-box">
+                                <h3>Yearly Trend</h3>
+                                <canvas id="myLine"></canvas>
+                            </div>
+                            <div class="chart-box">
+                                <h3>Calendar</h3>
+                                <div class="mini-calendar">
+                                    <div class="calendar-header">
+                                        <button class="calendar-nav" id="prevMonth">‹</button>
+                                        <span class="calendar-month-year" id="monthYear"></span>
+                                        <button class="calendar-nav" id="nextMonth">›</button>
+                                    </div>
+                                    <div class="calendar-grid" id="calendarGrid"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <div class="chart-box">
+                                <h3>Office Distribution</h3>
+                                <canvas id="officePieChart"></canvas>
+                            </div>
+                            <div class="chart-box">
+                                <h3>Performance Radar</h3>
+                                <canvas id="radarChart"></canvas>
+                            </div>
+                            <div class="chart-box">
+                                <h3>Revenue Growth</h3>
+                                <canvas id="doughnutChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/script/admin.js"></script>
+</body>
+</html>

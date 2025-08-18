@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<link rel="stylesheet" href="css/login.css">
+<link rel="stylesheet" href="css/index.css">
 <body>
     <div class="container">
-        <header><h1>Welcome, Login to continue</h1></header>
+        <header style="text-align: center;"> 
+            <h1>Welcome</h1>
+            <h3>Login to continue</h3>
+        </header>
         <form action="">
             <div class="name-container">
                 <label for="">Username👤</label>
@@ -27,26 +30,33 @@
     const passwordInput = document.getElementById('password');
     const formEl = document.querySelector('form');
 
-    formEl.addEventListener('submit', (e) =>{
-        e.preventDefault();
+    formEl.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-        const username = usernameInput.value.trim();
-        const password = passwordInput.value.trim();
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
 
-        if(!username || !password){
-            alert('Please enter everything to log in!!');
-            return;
-        }
-        
-        if(username === 'admin' && password === '123'){
-            window.location.href = '/pages/dashboard.html';
-        }
-        else{
-            alert("Incorrect");
-        }
+    if (!username || !password) {
+        alert('Please enter everything to log in!!');
+        return;
+    }
 
-        usernameInput.value = '';
-        passwordInput.value = '';
-    })
+    if (username === 'manager' && password === '123') {
+        window.location.href = '/pages/manager.html';
+    } 
+    else if (username === 'admin' && password === '123') {
+        window.location.href = '/pages/admin.html';
+    } 
+    else {
+        alert("Incorrect");
+        usernameInput.value = "";
+        passwordInput.value = "";
+        return;
+    }
+
+    usernameInput.value = '';
+    passwordInput.value = '';
+});
+
 </script>
 </html>
