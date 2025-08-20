@@ -8,23 +8,24 @@
 </head>
 <link rel="stylesheet" href="css/index.css">
 <body>
-    <div class="container">
-        <header style="text-align: center;"> 
-            <h1>Welcome</h1>
-            <h3>Login to continue</h3>
-        </header>
-        <form action="">
-            <div class="name-container">
-                <label for="">Username👤</label>
-                <input type="text" id="username">
-            </div>
-            <div class="password-container">
-                <label for="">Password 🔑</label>
-                <input type="password" id="password">
-            </div>
-            <button type="submit">Login</button>
-        </form>
-    </div>
+<body>
+  <div class="container">
+    <header>
+      <h1>Welcome</h1>
+      <h3>Login to continue</h3>
+    </header>
+    <form>
+      <div class="name-container">
+        <label for="username">Username 👤</label>
+        <input type="text" id="username" placeholder="Enter your username">
+      </div>
+      <div class="password-container">
+        <label for="password">Password 🔑</label>
+        <input type="password" id="password" placeholder="Enter your password">
+      </div>
+      <button type="submit">Login</button>
+    </form>
+  </div>
 </body>
 <script>
     const usernameInput = document.getElementById('username');
